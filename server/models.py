@@ -2,6 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.ext.hybrid import hybrid_property
+# from app import bcrypt
 
 db = SQLAlchemy()
 
@@ -49,7 +51,7 @@ class Pet(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     age = db.Column(db.Integer)
-    type = db.Column(db.String, nullable=False)
+    animal = db.Column(db.String, nullable=False)
     breed = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     shelter_id = db.Column(db.Integer, db.ForeignKey('shelters.id'))
@@ -61,11 +63,11 @@ class Pet(db.Model, SerializerMixin):
         if not value:
             raise ValueError('Must have a name')
         return value
-    
-    @validates('type')
-    def validate_type(self, key, value):
-        if not value:
-            raise ValueError('Must have a type')
+
+    @validates('animal')
+    def validates_animal(self, key, value):
+        if value not in ['Cat', 'Dog']:
+            raise ValueError("Must be Cat or Dog")
         return value
     
     @validates('breed')
@@ -111,5 +113,12 @@ class Review(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     shelter_id = db.Column(db.Integer, db.ForeignKey('shelters.id'))
+    body = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+    @validates('body')
+    def validate_body(self, key, value):
+        if not 1 <= len(value) <= 250:
+            raise ValueError('Review must be between 1 and 250 characters long')
+        return value
