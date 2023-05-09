@@ -84,13 +84,16 @@ class Pets(Resource):
                     user_id=session['user_id'],
                     shelter_id=data['shelter_id']
                 )
+
                 db.session.add(new_pet)
                 db.session.commit()
+
                 return make_response(new_pet.to_dict(), 201)
+            
             except Exception as ex:
                 return make_response({"errors": [ex.__str__()]}, 400)
+            
         return {'error': '401 Unauthorized'}, 401
-
 
 api.add_resource(Pets, '/pets')
 
@@ -100,35 +103,37 @@ class PetById(Resource):
         if session.get('user_id'):
             data = request.get_json()
             pet = Pet.query.filter_by(id=id).first()
+
             if not pet:
                 return make_response({"error": "pet not found"}, 400)
             for attr in data:
                 setattr(pet, attr, data[attr])
+
             db.session.add(pet)
             db.session.commit()
+
             return make_response(pet.to_dict(), 202)
+        
         return {'error': '401 Unauthorized'}, 401
 
-
 api.add_resource(PetById, '/pets/<int:id>')
-
 
 class Shelters(Resource):
     def get(self):
         if session.get('user_id'):
             shelters = [shelter.to_dict() for shelter in Shelter.query.all()]
             return make_response(shelters, 200)
+        
         return {'error': '401 Unauthorized'}, 401
 
-
 api.add_resource(Shelters, '/shelters')
-
 
 class Reviews(Resource):
     def get(self):
         if session.get('user_id'):
             reviews = [review.to_dict() for review in Review.query.all()]
             return make_response(reviews, 200)
+        
         return {'error': '401 Unauthorized'}, 401
 
     def post(self):
@@ -140,11 +145,14 @@ class Reviews(Resource):
                     user_id=session['user_id'],
                     shelter_id=data['shelter_id']
                 )
+
                 db.session.add(new_review)
                 db.session.commit()
+                return make_response(new_review.to_dict(), 201)
+
             except Exception as ex:
                 return make_response({"errors": [ex.__str__()]}, 400)
-            return make_response(new_review.to_dict(), 201)
+        
         return {'error': '401 Unauthorized'}, 401
 
 

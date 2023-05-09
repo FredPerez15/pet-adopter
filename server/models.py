@@ -9,8 +9,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-id', '-email', '-created_at',
-                       '-updated_at', '-reviews', '-pets', '-_password_hash',)
+    serialize_rules = ('-id', '-email', '-created_at', '-updated_at', '-reviews', '-pets', '-_password_hash',)
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
@@ -21,12 +20,10 @@ class User(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    reviews = db.relationship('Review', backref='user',
-                              cascade='all, delete, delete-orphan')
+    reviews = db.relationship('Review', backref='user', cascade='all, delete, delete-orphan')
     shelters = association_proxy('reviews', 'shelter')
 
-    pets = db.relationship('Pet', backref='user',
-                           cascade='all, delete, delete-orphan')
+    pets = db.relationship('Pet', backref='user', cascade='all, delete, delete-orphan')
     shelters = association_proxy('pets', 'shelter')
 
     @hybrid_property
