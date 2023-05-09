@@ -10,10 +10,12 @@ class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
     serialize_rules = ('-id', '-email', '-created_at',
-                       '-updated_at', '-reviews', '-pets',)
+                       '-updated_at', '-reviews', '-pets', '-_password_hash',)
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
+    _password_hash = db.Column(db.String, nullable=False)
+    avatar = db.Column(db.String)
     age = db.Column(db.Integer)
     email = db.Column(db.String, nullable=False, unique=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
@@ -29,7 +31,7 @@ class User(db.Model, SerializerMixin):
 
     @hybrid_property
     def password_hash(self):
-        return self._password_hash
+        raise AttributeError('Password hashes may not be viewed.')
 
     @password_hash.setter
     def password_hash(self, password):
