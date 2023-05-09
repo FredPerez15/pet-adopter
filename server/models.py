@@ -3,14 +3,14 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
-# from app import bcrypt
+from config import db, bcrypt
 
-db = SQLAlchemy()
 
-class User(db.Model, SerializerMixin): 
+class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-id', '-email', '-created_at', '-updated_at', '-reviews', '-pets',)
+    serialize_rules = ('-id', '-email', '-created_at',
+                       '-updated_at', '-reviews', '-pets',)
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
@@ -19,29 +19,47 @@ class User(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    reviews = db.relationship('Review', backref='user', cascade='all, delete, delete-orphan')
+    reviews = db.relationship('Review', backref='user',
+                              cascade='all, delete, delete-orphan')
     shelters = association_proxy('reviews', 'shelter')
 
-    pets = db.relationship('Pet', backref='user', cascade='all, delete, delete-orphan')
+    pets = db.relationship('Pet', backref='user',
+                           cascade='all, delete, delete-orphan')
     shelters = association_proxy('pets', 'shelter')
+
+    @hybrid_property
+    def password_hash(self):
+        return self._password_hash
+
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(
+            password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(
+            self._password_hash, password.encode('utf-8'))
 
     @validates('username')
     def validate_username(self, key, value):
         if not value and 1 <= value <= 20:
-            raise ValueError('Must have a username between 1 and 20 characters')
+            raise ValueError(
+                'Must have a username between 1 and 20 characters')
         return value
-    
+
     @validates('email')
     def validate_email(self, key, value):
         if not value:
             raise ValueError('Must have an email address')
         return value
-    
+
     @validates('age')
     def validate_age(self, key, value):
         if not 18 <= value:
             raise ValueError('Must be at least 18 years old')
         return value
+
 
 class Pet(db.Model, SerializerMixin):
     __tablename__ = 'pets'
@@ -69,12 +87,13 @@ class Pet(db.Model, SerializerMixin):
         if value not in ['Cat', 'Dog']:
             raise ValueError("Must be Cat or Dog")
         return value
-    
+
     @validates('breed')
     def validate_breed(self, key, value):
         if not value:
             raise ValueError('Must have a breed')
         return value
+
 
 class Shelter(db.Model, SerializerMixin):
     __tablename__ = 'shelters'
@@ -87,10 +106,12 @@ class Shelter(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    pets = db.relationship('Pet', backref='shelter', cascade='all, delete, delete-orphan')
+    pets = db.relationship('Pet', backref='shelter',
+                           cascade='all, delete, delete-orphan')
     users = association_proxy('pets', 'user')
 
-    reviews = db.relationship('Review', backref='shelter', cascade='all, delete, delete-orphan')
+    reviews = db.relationship(
+        'Review', backref='shelter', cascade='all, delete, delete-orphan')
     users = association_proxy('reviews', 'user')
 
     @validates('name')
@@ -98,12 +119,13 @@ class Shelter(db.Model, SerializerMixin):
         if not value:
             raise ValueError('Must have a name')
         return value
-    
+
     @validates('address')
     def validate_address(self, key, value):
         if not value:
             raise ValueError('Must have an address')
         return value
+
 
 class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
@@ -120,5 +142,6 @@ class Review(db.Model, SerializerMixin):
     @validates('body')
     def validate_body(self, key, value):
         if not 1 <= len(value) <= 250:
-            raise ValueError('Review must be between 1 and 250 characters long')
+            raise ValueError(
+                'Review must be between 1 and 250 characters long')
         return value
