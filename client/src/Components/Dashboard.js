@@ -19,7 +19,9 @@ const Dashboard = ({ user, setUser }) => {
         color="inherit"
         onClick={handleLogout}
         sx={{ marginLeft: "auto" }}
-      ></IconButton>
+      >
+        Logout
+      </IconButton>
     </>
   );
 };
