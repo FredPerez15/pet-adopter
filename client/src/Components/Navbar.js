@@ -1,11 +1,11 @@
-const Navbar = () => {
+import React from "react";
+import Login from "./Login";
+
+const Navbar = ({ handleLogin }) => {
   return (
-    <h1>
-      Welcome <br />
-      Almighty Bicep <br />
-      Godlike Freddy <br />
-      Magnificent Timmy!
-    </h1>
+    <>
+      <Login handleLogin={handleLogin} />
+    </>
   );
 };
 

@@ -10,8 +10,8 @@ class Signup(Resource):
         password = json['password']
         user = User(
             username=json['username'],
-            avatar=json['avatar'],
-            age=json['age']
+            age=int(json['age']),
+            email=json['email']
         )
         user.password_hash = password
         try:
@@ -40,14 +40,14 @@ api.add_resource(CheckSession, '/check_session')
 class Login(Resource):
     def post(self):
         json = request.get_json()
-        username = json['username']
+        email = json['email']
         password = json['password']
-        user = User.query.filter(User.username == username)
+        user = User.query.filter(User.email == email).first()
         if user:
             if user.authenticate(password):
                 session['user_id'] = user.id
                 return user.to_dict(), 200
-        return {'error': 'Invalid username or password'}, 401
+        return {'error': 'Invalid email or password'}, 401
 
 
 api.add_resource(Login, '/login')
@@ -89,11 +89,12 @@ class Pets(Resource):
                 db.session.commit()
 
                 return make_response(new_pet.to_dict(), 201)
-            
+
             except Exception as ex:
                 return make_response({"errors": [ex.__str__()]}, 400)
-            
+
         return {'error': '401 Unauthorized'}, 401
+
 
 api.add_resource(Pets, '/pets')
 
@@ -113,27 +114,31 @@ class PetById(Resource):
             db.session.commit()
 
             return make_response(pet.to_dict(), 202)
-        
+
         return {'error': '401 Unauthorized'}, 401
 
+
 api.add_resource(PetById, '/pets/<int:id>')
+
 
 class Shelters(Resource):
     def get(self):
         if session.get('user_id'):
             shelters = [shelter.to_dict() for shelter in Shelter.query.all()]
             return make_response(shelters, 200)
-        
+
         return {'error': '401 Unauthorized'}, 401
 
+
 api.add_resource(Shelters, '/shelters')
+
 
 class Reviews(Resource):
     def get(self):
         if session.get('user_id'):
             reviews = [review.to_dict() for review in Review.query.all()]
             return make_response(reviews, 200)
-        
+
         return {'error': '401 Unauthorized'}, 401
 
     def post(self):
@@ -152,7 +157,7 @@ class Reviews(Resource):
 
             except Exception as ex:
                 return make_response({"errors": [ex.__str__()]}, 400)
-        
+
         return {'error': '401 Unauthorized'}, 401
 
 
