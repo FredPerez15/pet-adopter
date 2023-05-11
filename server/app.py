@@ -120,7 +120,6 @@ class PetById(Resource):
 
 api.add_resource(PetById, '/pets/<int:id>')
 
-
 class Shelters(Resource):
     def get(self):
         if session.get('user_id'):

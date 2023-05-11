@@ -14,10 +14,12 @@ import {
 } from "@mui/material";
 import Image from "mui-image";
 
-const ShelterDetails = () => {
+const ShelterDetails = ({user}) => {
   const [shelterDetails, setShelterDetails] = useState([]);
+  const [pets, setPets] = useState([]);
+
   const { id } = useParams();
-  const { name, address } = shelterDetails;
+  const { name, address, image } = shelterDetails;
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -25,10 +27,29 @@ const ShelterDetails = () => {
       if (resp.ok) {
         const shelterDetails = await resp.json();
         setShelterDetails(shelterDetails);
+        setPets(shelterDetails.pets || []);
       }
     };
     fetchDetails();
   }, [id]);
+
+  const adoptPet = async(pet) => {
+    if (user) {
+      const resp = await fetch(`/pets/${pet.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user_id: user.id })
+      });
+      if (resp.ok) {
+        const updatedPet = await resp.json();
+        setPets(pets.map(p => p.id === updatedPet.id ? updatedPet : p));
+      }
+    } else {
+      console.error('User not logged in');
+    }
+  }
 
   return (
     <>
@@ -36,6 +57,7 @@ const ShelterDetails = () => {
         <Typography variant="h4" align="center">
           {name}
         </Typography>
+        <Image src={image} height="20%"/>
         <Typography variant="h6" align="center">
           {address}
         </Typography>
@@ -43,8 +65,7 @@ const ShelterDetails = () => {
           <Box>
             <Typography variant="h4">Pets</Typography>
             <List>
-              {shelterDetails.pets &&
-                shelterDetails.pets.map((pet) => (
+              {pets.map((pet) => (
                   <ListItem key={pet.id}>
                     <Box>
                       <Image src={pet.image} />
@@ -52,7 +73,9 @@ const ShelterDetails = () => {
                       <Typography variant="body1">{`Age: ${pet.age}`}</Typography>
                       <Typography variant="body1">{`Animal: ${pet.animal}`}</Typography>
                       <Typography variant="body1">{`Breed: ${pet.breed}`}</Typography>
-                      <Button variant="contained">Adopt!</Button>
+                      <Button variant="contained" onClick={() => adoptPet(pet)} disabled={!!pet.user_id}>
+                        {pet.user_id ? "Adopted!" : "Adopt!"}
+                      </Button>
                     </Box>
                   </ListItem>
                 ))}

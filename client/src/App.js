@@ -46,7 +46,7 @@ const App = () => {
           element={<Dashboard user={user} setUser={setUser} />}
         />
         <Route path="/shelters" element={<Shelter />} />
-        <Route path="/shelters/:id" element={<ShelterDetails />} />
+        <Route path="/shelters/:id" element={<ShelterDetails user={user}/>} />
         <Route path="/pets" element={<Pets/>} />
       </Routes>
     </Container>
