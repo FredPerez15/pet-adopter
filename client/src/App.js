@@ -1,12 +1,19 @@
+// react imports
 import React from "react";
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+
+//component imports
 import Navbar from "./Components/Navbar";
 import Signup from "./Components/Signup";
 import Shelter from "./Components/Shelter";
+import ShelterDetails from "./Components/ShelterDetails";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
 import Dashboard from "./Components/Dashboard";
-import { Routes, Route } from "react-router-dom";
+
+//MUI imports
+import Container from "@mui/material/Container";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -27,19 +34,17 @@ const App = () => {
   };
 
   return (
-    <div className="app">
-      <Navbar />
+    <Container>
+      <Navbar user={user} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login handleLogin={handleLogin} />} />
         <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/dashboard"
-          element={<Dashboard user={user} setUser={setUser} />}
-        />
-      <Route path='/shelters' element={<Shelter />} />
+        <Route path="/dashboard" element={<Dashboard user={user} setUser={setUser} />} />
+        <Route path="/shelters" element={<Shelter />} />
+        <Route path="/shelters/:id" element={<ShelterDetails />} />
       </Routes>
-    </div>
+    </Container>
   );
 };
 
