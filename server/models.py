@@ -73,6 +73,7 @@ class Pet(db.Model, SerializerMixin):
     age = db.Column(db.Integer)
     animal = db.Column(db.String, nullable=False)
     breed = db.Column(db.String, nullable=False)
+    image = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     shelter_id = db.Column(db.Integer, db.ForeignKey('shelters.id'))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
@@ -105,6 +106,7 @@ class Shelter(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     address = db.Column(db.String)
+    image = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
