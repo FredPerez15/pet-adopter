@@ -1,42 +1,39 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Image from "mui-image";
-import { Box, Grid, List, ListItem } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+import { Box, List, ListItem, Divider } from "@mui/material";
 
 const Dashboard = ({ user }) => {
   const [userDetails, setUserDetails] = useState([]);
-  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
-      const resp = await fetch(`/users/${id}`);
-      if (resp.ok) {
-        const userDetails = await resp.json();
-        setUserDetails(userDetails);
+      if (user) {
+        const resp = await fetch(`/users/${user.id}`);
+        if (resp.ok) {
+          const userDetails = await resp.json();
+          setUserDetails(userDetails);
+        }
       }
     };
     fetchData();
-  }, [id]);
+  }, [user]);
 
   return (
-    <Grid container>
-      <Grid item sm={6}>
-        <Box>
-          <Card sx={{ maxWidth: 445 }}>
-            <Image src={user.avatar} />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {user.username}
-              </Typography>
-              <Typography>{user.age}</Typography>
-              <Typography>{user.pets}</Typography>
-              <Typography>{user.reviews}</Typography>
-            </CardContent>
-          </Card>
+    <>
+      <Box>
+        <Image
+          src={userDetails.avatar}
+          style={{ alignItems: "center" }}
+          height="20%"
+          width="20%"
+        />
+        <Typography variant="h5" align="center" s>
+          {userDetails.username}
+        </Typography>
+        <Typography align="center">{userDetails.age}</Typography>
+        <Box display="flex" justifyContent="space-around" m={2}>
           <Box>
             <Typography variant="h4">My Pets</Typography>
             <List>
@@ -54,6 +51,7 @@ const Dashboard = ({ user }) => {
                 ))}
             </List>
           </Box>
+          <Divider orientation="vertical" flexItem />
           <Box>
             <Typography variant="h4">My Reviews</Typography>
             <List>
@@ -64,8 +62,9 @@ const Dashboard = ({ user }) => {
             </List>
           </Box>
         </Box>
-      </Grid>
-    </Grid>
+      </Box>
+      {/* </Grid> */}
+    </>
   );
 };
 

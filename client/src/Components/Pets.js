@@ -37,9 +37,6 @@ const Pets = () => {
                 <Typography gutterBottom variant="h5" component="div">
                   {el.name}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  These will be the Pets
-                </Typography>
               </CardContent>
             </CardActionArea>
           </Card>
