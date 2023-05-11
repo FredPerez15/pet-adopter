@@ -35,12 +35,15 @@ const App = () => {
 
   return (
     <Container>
-      <Navbar user={user} />
+      <Navbar user={user} setUser={setUser} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login handleLogin={handleLogin} />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard user={user} setUser={setUser} />} />
+        <Route
+          path="/dashboard"
+          element={<Dashboard user={user} setUser={setUser} />}
+        />
         <Route path="/shelters" element={<Shelter />} />
         <Route path="/shelters/:id" element={<ShelterDetails />} />
       </Routes>
