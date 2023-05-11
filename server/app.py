@@ -1,5 +1,5 @@
 from models import User, Shelter, Review, Pet
-from config import api, app, db
+from config import api, app, db, abort
 from flask_restful import Resource
 from flask import request, make_response, session
 
@@ -132,6 +132,23 @@ class Shelters(Resource):
 
 api.add_resource(Shelters, '/shelters')
 
+class SheltersById(Resource):
+    def get(self, id):
+
+        if not session.get('user_id'):
+            abort(401, description='Unauthorized: You must be logged in to view this information ')
+
+        shelter = Shelter.query.get(id)
+        if shelter:
+            shelter_data = shelter.to_dict()
+            shelter_data['pets'] = [pet.to_dict() for pet in shelter.pets]
+            shelter_data['reviews'] = [review.to_dict() for review in shelter.reviews]
+            return shelter_data, 200
+        else:
+            return {"error": "Shelter not found"}, 404
+
+
+api.add_resource(SheltersById, '/shelters/<int:id>')
 
 class Reviews(Resource):
     def get(self):

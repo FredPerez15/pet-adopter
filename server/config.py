@@ -1,7 +1,7 @@
 from flask_restful import Api
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
-from flask import Flask
+from flask import Flask, abort
 from flask_sqlalchemy import SQLAlchemy
 import os
 
