@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import React from "react";
 
 //MUI imports
-import { AppBar, Button, Toolbar, Typography, styled } from "@mui/material";
+import { AppBar, Toolbar, Typography, styled } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 
 const Navbar = ({ user, setUser }) => {
@@ -33,8 +33,13 @@ const Navbar = ({ user, setUser }) => {
               Pet Adopter!
             </Typography>
             <PetsIcon sx={{ display: { xs: "block", sm: "none" } }} />
-            <NavLink to="/login" style={{ textDecoration: 'none', color: "inherit" }}>
-              <Typography variant="h6" style={{cursor: "pointer"}}>Login</Typography>
+            <NavLink
+              to="/login"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Typography variant="h6" style={{ cursor: "pointer" }}>
+                Login
+              </Typography>
             </NavLink>
           </StyledToolBar>
         </AppBar>
@@ -46,7 +51,10 @@ const Navbar = ({ user, setUser }) => {
     <>
       <AppBar position="sticky">
         <StyledToolBar>
-          <NavLink to="/dashboard" style={{ textDecoration: 'none', color: "inherit" }}>
+          <NavLink
+            to="/dashboard"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
             <Typography
               variant="h6"
               sx={{ display: { xs: "none", sm: "block" } }}
@@ -55,19 +63,32 @@ const Navbar = ({ user, setUser }) => {
             </Typography>
           </NavLink>
           <NavLink>
-          <PetsIcon sx={{ display: { xs: "block", sm: "none" } }} style={{ textDecoration: 'none', color: "white" }} />
+            <PetsIcon
+              sx={{ display: { xs: "block", sm: "none" } }}
+              style={{ textDecoration: "none", color: "white" }}
+            />
           </NavLink>
           <Typography variant="h6">
-            <NavLink to="/shelters" style={{ textDecoration: 'none', color: "inherit" }}>
+            <NavLink
+              to="/shelters"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               Shelters
             </NavLink>
           </Typography>
           <Typography variant="h6">
-            <NavLink to="/pets" style={{ textDecoration: 'none', color: "inherit" }} >
+            <NavLink
+              to="/pets"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               Pets
             </NavLink>
           </Typography>
-          <Typography variant="h6" onClick={handleLogout} style={{cursor: "pointer"}}>
+          <Typography
+            variant="h6"
+            onClick={handleLogout}
+            style={{ cursor: "pointer" }}
+          >
             Logout
           </Typography>
         </StyledToolBar>
