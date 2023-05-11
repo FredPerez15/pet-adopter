@@ -1,6 +1,6 @@
 //react imports
 import { useNavigate } from "react-router-dom";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import React from "react";
 
 //MUI imports
@@ -33,9 +33,9 @@ const Navbar = ({ user, setUser }) => {
               Pet Adopter!
             </Typography>
             <PetsIcon sx={{ display: { xs: "block", sm: "none" } }} />
-            <Link to="/login">
-              <Button variant="contained">Login</Button>
-            </Link>
+            <NavLink to="/login" style={{ textDecoration: 'none', color: "inherit" }}>
+              <Typography variant="h6" style={{cursor: "pointer"}}>Login</Typography>
+            </NavLink>
           </StyledToolBar>
         </AppBar>
       </>
@@ -57,15 +57,19 @@ const Navbar = ({ user, setUser }) => {
           <NavLink>
           <PetsIcon sx={{ display: { xs: "block", sm: "none" } }} style={{ textDecoration: 'none', color: "white" }} />
           </NavLink>
-          <Link to="/shelters">
-            <Button variant="contained">Shelters</Button>
-          </Link>
-          <Link to="/pets">
-              <Button variant="contained">Pets</Button>
-          </Link>
-          <Button variant="contained" onClick={handleLogout}>
+          <Typography variant="h6">
+            <NavLink to="/shelters" style={{ textDecoration: 'none', color: "inherit" }}>
+              Shelters
+            </NavLink>
+          </Typography>
+          <Typography variant="h6">
+            <NavLink to="/pets" style={{ textDecoration: 'none', color: "inherit" }} >
+              Pets
+            </NavLink>
+          </Typography>
+          <Typography variant="h6" onClick={handleLogout} style={{cursor: "pointer"}}>
             Logout
-          </Button>
+          </Typography>
         </StyledToolBar>
       </AppBar>
     </>
