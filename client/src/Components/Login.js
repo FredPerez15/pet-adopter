@@ -35,7 +35,6 @@ const Login = ({ handleLogin }) => {
     <>
       <Container maxWidth="xs">
         <Box component="form" onSubmit={onSubmit} sx={{ mt: 1 }}>
-  
           <TextField
             margin="normal"
             required
@@ -57,11 +56,7 @@ const Login = ({ handleLogin }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <br />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign In
           </Button>
           <Grid>

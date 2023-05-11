@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Image from "mui-image";
 
-const ShelterDetails = ({user}) => {
+const ShelterDetails = ({ user }) => {
   const [shelterDetails, setShelterDetails] = useState([]);
   const [pets, setPets] = useState([]);
 
@@ -24,6 +24,7 @@ const ShelterDetails = ({user}) => {
   useEffect(() => {
     const fetchDetails = async () => {
       const resp = await fetch(`/shelters/${id}`);
+      console.log(resp);
       if (resp.ok) {
         const shelterDetails = await resp.json();
         setShelterDetails(shelterDetails);
@@ -33,23 +34,23 @@ const ShelterDetails = ({user}) => {
     fetchDetails();
   }, [id]);
 
-  const adoptPet = async(pet) => {
+  const adoptPet = async (pet) => {
     if (user) {
       const resp = await fetch(`/pets/${pet.id}`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user_id: user.id })
+        body: JSON.stringify({ user_id: user.id }),
       });
       if (resp.ok) {
         const updatedPet = await resp.json();
-        setPets(pets.map(p => p.id === updatedPet.id ? updatedPet : p));
+        setPets(pets.map((p) => (p.id === updatedPet.id ? updatedPet : p)));
       }
     } else {
-      console.error('User not logged in');
+      console.error("User not logged in");
     }
-  }
+  };
 
   return (
     <>
@@ -57,7 +58,7 @@ const ShelterDetails = ({user}) => {
         <Typography variant="h4" align="center">
           {name}
         </Typography>
-        <Image src={image} height="20%"/>
+        <Image src={image} height="20%" />
         <Typography variant="h6" align="center">
           {address}
         </Typography>
@@ -66,19 +67,23 @@ const ShelterDetails = ({user}) => {
             <Typography variant="h4">Pets</Typography>
             <List>
               {pets.map((pet) => (
-                  <ListItem key={pet.id}>
-                    <Box>
-                      <Image src={pet.image} />
-                      <Typography variant="h6">{pet.name}</Typography>
-                      <Typography variant="body1">{`Age: ${pet.age}`}</Typography>
-                      <Typography variant="body1">{`Animal: ${pet.animal}`}</Typography>
-                      <Typography variant="body1">{`Breed: ${pet.breed}`}</Typography>
-                      <Button variant="contained" onClick={() => adoptPet(pet)} disabled={!!pet.user_id}>
-                        {pet.user_id ? "Adopted!" : "Adopt!"}
-                      </Button>
-                    </Box>
-                  </ListItem>
-                ))}
+                <ListItem key={pet.id}>
+                  <Box>
+                    <Image src={pet.image} />
+                    <Typography variant="h6">{pet.name}</Typography>
+                    <Typography variant="body1">{`Age: ${pet.age}`}</Typography>
+                    <Typography variant="body1">{`Animal: ${pet.animal}`}</Typography>
+                    <Typography variant="body1">{`Breed: ${pet.breed}`}</Typography>
+                    <Button
+                      variant="contained"
+                      onClick={() => adoptPet(pet)}
+                      disabled={!!pet.user_id}
+                    >
+                      {pet.user_id ? "Adopted!" : "Adopt!"}
+                    </Button>
+                  </Box>
+                </ListItem>
+              ))}
             </List>
           </Box>
           <Divider orientation="vertical" flexItem />

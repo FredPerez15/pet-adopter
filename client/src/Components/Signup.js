@@ -116,7 +116,7 @@ const Signup = () => {
                   {formik.errors.password}
                 </Typography>
               </Grid>
-              {/* <Grid item xs={12}>
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
@@ -130,7 +130,7 @@ const Signup = () => {
                 <Typography sx={{ color: "red" }}>
                   {formik.errors.avatar}
                 </Typography>
-              </Grid> */}
+              </Grid>
               <Grid item xs={12}></Grid>
             </Grid>
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
@@ -138,7 +138,7 @@ const Signup = () => {
             </Button>
             <Grid container justifyContent="flex-left" sx={{ mb: 8 }}>
               <Grid item>
-                <Link to="/" variant="body2">
+                <Link to="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

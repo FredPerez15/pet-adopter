@@ -7,7 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Signup from "./Components/Signup";
 import Shelter from "./Components/Shelter";
-import Pets from "./Components/Pets"
+import Pets from "./Components/Pets";
 import ShelterDetails from "./Components/ShelterDetails";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
@@ -46,8 +46,8 @@ const App = () => {
           element={<Dashboard user={user} setUser={setUser} />}
         />
         <Route path="/shelters" element={<Shelter />} />
-        <Route path="/shelters/:id" element={<ShelterDetails user={user}/>} />
-        <Route path="/pets" element={<Pets/>} />
+        <Route path="/shelters/:id" element={<ShelterDetails user={user} />} />
+        <Route path="/pets" element={<Pets />} />
       </Routes>
     </Container>
   );
