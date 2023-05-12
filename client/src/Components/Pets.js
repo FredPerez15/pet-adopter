@@ -25,7 +25,7 @@ const Pets = () => {
     return (
       <Grid item xs={12} sm={6} md={4} key={el.id}>
         <Box flex={4} p={2}>
-          <Card sx={{ maxWidth: 445 }}>
+          <Card sx={{ maxWidth: 445, backgroundColor: "#bcbab5" }}>
             <CardActionArea>
               <CardMedia
                 component="img"
