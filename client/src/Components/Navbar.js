@@ -43,12 +43,17 @@ const Navbar = ({ user, setUser }) => {
         <ThemeProvider theme={theme}>
           <AppBar position="sticky" color="secondary">
             <StyledToolBar>
-              <Typography
-                variant="h6"
-                sx={{ display: { xs: "none", sm: "block" } }}
+              <NavLink
+                to="/"
+                style={{ textDecoration: "none", color: "inherit" }}
               >
-                Pet Adopter!
-              </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{ display: { xs: "none", sm: "block" } }}
+                >
+                  Pet Adopter!
+                </Typography>
+              </NavLink>
               <PetsIcon sx={{ display: { xs: "block", sm: "none" } }} />
               <NavLink
                 to="/login"
@@ -78,7 +83,7 @@ const Navbar = ({ user, setUser }) => {
                 variant="h6"
                 sx={{ display: { xs: "none", sm: "block" } }}
               >
-                Pet Adopter!
+                My Profile
               </Typography>
             </NavLink>
             <NavLink>

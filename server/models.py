@@ -9,12 +9,13 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ( '-created_at', '-updated_at', '-reviews', '-pets', '-_password_hash',)
+    serialize_rules = ('-created_at', '-updated_at',
+                       '-reviews', '-pets', '-_password_hash',)
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
-    avatar = db.Column(db.String, default='/icon.jpeg')
+    avatar = db.Column(db.String)
     age = db.Column(db.Integer)
     email = db.Column(db.String, nullable=False, unique=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())

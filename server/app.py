@@ -68,11 +68,9 @@ api.add_resource(Logout, '/logout')
 
 class UserById(Resource):
     def get(self, id):
-
         if not session.get('user_id'):
             abort(
                 401, description='Unauthorized: You must be logged in to view this information ')
-
         user = User.query.get(id)
         if user:
             user_data = user.to_dict()
@@ -82,6 +80,29 @@ class UserById(Resource):
             return user_data, 200
         else:
             return {"error": "User not found"}, 404
+
+    def patch(self, id):
+        if session.get('user_id'):
+            json = request.get_json()
+            user = User.query.filter_by(id=id).first()
+            if not user:
+                return make_response({"error": "User not found"}, 400)
+            for attr in json:
+                setattr(user, attr, json[attr])
+            db.session.add(user)
+            db.session.commit()
+            return make_response(user.to_dict(), 200)
+        return {'error': '401 Unauthorized'}, 401
+
+    def delete(self, id):
+        if session.get('user_id'):
+            user = User.query.filter_by(id=id).first()
+            if not user:
+                return make_response({"error": "User does not exist"})
+            db.session.delete(user)
+            db.session.commit()
+            return make_response({}, 200)
+        return {'error': '401 Unauthorized'}, 401
 
 
 api.add_resource(UserById, '/users/<int:id>')
@@ -141,6 +162,7 @@ class PetById(Resource):
 
 
 api.add_resource(PetById, '/pets/<int:id>')
+
 
 class Shelters(Resource):
     def get(self):
@@ -205,6 +227,7 @@ class Reviews(Resource):
 
 api.add_resource(Reviews, '/reviews')
 
+
 class ReviewById(Resource):
     def patch(self, id):
         if session.get('user_id'):
@@ -232,6 +255,7 @@ class ReviewById(Resource):
             db.session.commit()
             return make_response('', 200)
         return {'error': '401 Unauthorized'}, 401
+
 
 api.add_resource(ReviewById, '/reviews/<int:id>')
 
