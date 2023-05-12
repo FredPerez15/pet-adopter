@@ -17,14 +17,13 @@ import {
   DialogContentText,
   TextField,
   DialogActions,
-  Grid
+  Grid,
 } from "@mui/material";
 import Image from "mui-image";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const ShelterDetails = ({ user }) => {
-
   const [shelterDetails, setShelterDetails] = useState([]);
   const [pets, setPets] = useState([]);
 
@@ -113,7 +112,6 @@ const ShelterDetails = ({ user }) => {
     setEditOpen(true);
   };
 
- 
   const handleEditClose = () => {
     setEditOpen(false);
   };
@@ -149,7 +147,7 @@ const ShelterDetails = ({ user }) => {
     handleEditReview(editingReviewId, editBody);
     handleEditClose();
   };
-  
+
   const handleDeleteReview = async (reviewId) => {
     if (user) {
       const resp = await fetch(`/reviews/${reviewId}`, {
@@ -182,7 +180,9 @@ const ShelterDetails = ({ user }) => {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <Typography variant="h4" align="center">Pets</Typography>
+            <Typography variant="h4" align="center">
+              Pets
+            </Typography>
             <List>
               {pets.map((pet) => (
                 <ListItem key={pet.id}>
@@ -204,15 +204,22 @@ const ShelterDetails = ({ user }) => {
               ))}
             </List>
           </Grid>
-          <Grid item xs={false} md={1} style={{ borderRight: '1px solid gray' }}></Grid>
+          <Grid
+            item
+            xs={false}
+            md={1}
+            style={{ borderRight: "1px solid gray" }}
+          ></Grid>
           <Grid item xs={12} md={5}>
-            <Typography variant="h4" align="center">Reviews</Typography>
+            <Typography variant="h4" align="center">
+              Reviews
+            </Typography>
             <List>
               {user && (
                 <Box display="flex" justifyContent="center" mb={2}>
-                <Button variant="contained" onClick={handleClickOpen}>
+                  <Button variant="contained" onClick={handleClickOpen}>
                     Add Review
-                </Button>
+                  </Button>
                 </Box>
               )}
               <Dialog open={open} onClose={handleClose}>
@@ -239,10 +246,10 @@ const ShelterDetails = ({ user }) => {
               <Dialog open={editOpen} onClose={handleEditClose}>
                 <DialogTitle>Edit Review</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
+                  <DialogContentText>
                     Please edit your review.
-                    </DialogContentText>
-                    <TextField
+                  </DialogContentText>
+                  <TextField
                     autoFocus
                     margin="dense"
                     label="Review"
@@ -250,38 +257,42 @@ const ShelterDetails = ({ user }) => {
                     fullWidth
                     value={editBody}
                     onChange={(e) => setEditBody(e.target.value)}
-                    />
+                  />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleEditClose}>Cancel</Button>
-                    <Button onClick={handleConfirmEdit}>Confirm Edit</Button>
+                  <Button onClick={handleEditClose}>Cancel</Button>
+                  <Button onClick={handleConfirmEdit}>Confirm Edit</Button>
                 </DialogActions>
-                </Dialog>
+              </Dialog>
 
               {shelterDetails.reviews &&
                 shelterDetails.reviews.map((review) => (
-                    <ListItem key={review.id}>
+                  <ListItem key={review.id}>
                     <Box>
-                        <Typography>{review.body}</Typography>
-                        {user && user.id === review.user_id && (
-                        <Box mt={1} display="flex" justifyContent="space-between">
-                            <Button
+                      <Typography>{review.body}</Typography>
+                      {user && user.id === review.user_id && (
+                        <Box
+                          mt={1}
+                          display="flex"
+                          justifyContent="space-between"
+                        >
+                          <Button
                             variant="outlined"
                             size="small"
                             startIcon={<EditIcon />}
                             onClick={() => handleEditOpen(review)}
-                            />
-                            <Button
+                          />
+                          <Button
                             variant="outlined"
                             size="small"
                             color="secondary"
                             startIcon={<DeleteIcon />}
                             onClick={() => handleDeleteReview(review.id)}
-                            />
+                          />
                         </Box>
-                        )}
+                      )}
                     </Box>
-                    </ListItem>
+                  </ListItem>
                 ))}
             </List>
           </Grid>
@@ -289,10 +300,6 @@ const ShelterDetails = ({ user }) => {
       </Box>
     </>
   );
-  
-  
 };
 
 export default ShelterDetails;
-
-
