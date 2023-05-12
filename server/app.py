@@ -205,6 +205,33 @@ class Reviews(Resource):
 api.add_resource(Reviews, '/reviews')
 
 
+# class ReviewById(Resource):
+#     def patch(self, id):
+#         if session.get('user_id'):
+#             data = request.get_json()
+#             review = Review.query.filter_by(id=id).first()
+#             if not review:
+#                 return make_response({"error": "review not found"}, 400)
+#             for attr in data:
+#                 setattr(review, attr, data[attr])
+#             db.session.add(review)
+#             db.session.commit()
+#             return make_response(review.to_dict(), 202)
+#         return {'error': '401 Unauthorized'}, 401
+
+#     def delete(self, id):
+#         if session.get('user_id'):
+#             review = Review.query.filter_by(id=id).first()
+#             if not review:
+#                 return make_response({"error": "review does not exist"})
+#             db.session.delete(review)
+#             db.session.commit()
+#             return make_response('', 200)
+#         return {'error': '401 Unauthorized'}, 401
+
+
+# api.add_resource(ReviewById, '/reviews/<int:id>')
+
 class ReviewById(Resource):
     def patch(self, id):
         if session.get('user_id'):
@@ -212,6 +239,8 @@ class ReviewById(Resource):
             review = Review.query.filter_by(id=id).first()
             if not review:
                 return make_response({"error": "review not found"}, 400)
+            if review.user_id != session['user_id']:
+                return make_response({"error": "not authorized to edit this review"}, 401)
             for attr in data:
                 setattr(review, attr, data[attr])
             db.session.add(review)
@@ -224,11 +253,12 @@ class ReviewById(Resource):
             review = Review.query.filter_by(id=id).first()
             if not review:
                 return make_response({"error": "review does not exist"})
+            if review.user_id != session['user_id']:
+                return make_response({"error": "not authorized to delete this review"}, 401)
             db.session.delete(review)
             db.session.commit()
             return make_response('', 200)
         return {'error': '401 Unauthorized'}, 401
-
 
 api.add_resource(ReviewById, '/reviews/<int:id>')
 
