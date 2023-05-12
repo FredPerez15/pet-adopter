@@ -2,6 +2,7 @@ from models import User, Shelter, Review, Pet
 from config import api, app, db, abort
 from flask_restful import Resource
 from flask import request, make_response, session
+from sqlalchemy.orm import joinedload
 
 
 class Signup(Resource):
@@ -203,34 +204,6 @@ class Reviews(Resource):
 
 
 api.add_resource(Reviews, '/reviews')
-
-
-# class ReviewById(Resource):
-#     def patch(self, id):
-#         if session.get('user_id'):
-#             data = request.get_json()
-#             review = Review.query.filter_by(id=id).first()
-#             if not review:
-#                 return make_response({"error": "review not found"}, 400)
-#             for attr in data:
-#                 setattr(review, attr, data[attr])
-#             db.session.add(review)
-#             db.session.commit()
-#             return make_response(review.to_dict(), 202)
-#         return {'error': '401 Unauthorized'}, 401
-
-#     def delete(self, id):
-#         if session.get('user_id'):
-#             review = Review.query.filter_by(id=id).first()
-#             if not review:
-#                 return make_response({"error": "review does not exist"})
-#             db.session.delete(review)
-#             db.session.commit()
-#             return make_response('', 200)
-#         return {'error': '401 Unauthorized'}, 401
-
-
-# api.add_resource(ReviewById, '/reviews/<int:id>')
 
 class ReviewById(Resource):
     def patch(self, id):
