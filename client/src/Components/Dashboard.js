@@ -59,8 +59,6 @@ const Dashboard = ({ user }) => {
   };
 
   const handleEditUser = async (user) => {
-    console.log(user);
-    console.log(userDetails);
     if (userDetails) {
       const resp = await fetch(`/users/${user}`, {
         method: "PATCH",
@@ -98,8 +96,6 @@ const Dashboard = ({ user }) => {
       const resp = await fetch(`/users/${user.id}`, {
         method: "DELETE",
       });
-      console.log(resp);
-      console.log(userDetails);
       if (resp.ok) {
         alert("Deleted");
         navigate("/");
@@ -124,19 +120,21 @@ const Dashboard = ({ user }) => {
               <Typography variant="h5" align="center">
                 {userDetails.age}
               </Typography>
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<EditIcon />}
-                onClick={() => handleEditOpen(user)}
-              />
-              <Button
-                variant="outlined"
-                size="small"
-                color="secondary"
-                startIcon={<DeleteIcon />}
-                onClick={() => handleDeleteUser(userDetails.id)}
-              />
+              <Box display="flex" justifyContent="space-between">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<EditIcon />}
+                  onClick={() => handleEditOpen(user)}
+                />
+                <Button
+                  variant="outlined"
+                  size="small"
+                  color="secondary"
+                  startIcon={<DeleteIcon />}
+                  onClick={() => handleDeleteUser(userDetails.id)}
+                />
+              </Box>
               <Dialog open={editOpen} onClose={handleEditClose}>
                 <DialogTitle>Edit User</DialogTitle>
                 <DialogContent>
