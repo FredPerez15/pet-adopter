@@ -22,8 +22,6 @@ const Dashboard = ({ user }) => {
     fetchData();
   }, [user]);
 
-  console.log(userDetails);
-
   return (
     <>
       <Box>
@@ -78,7 +76,7 @@ const Dashboard = ({ user }) => {
             >
               {userDetails.reviews &&
                 userDetails.reviews.map((review) => (
-                  <ListItem key={review.id}>{review.body}</ListItem>
+                  <ListItem key={review.id}>{review.shelter.name}: {review.body}</ListItem>
                 ))}
             </List>
           </Box>
