@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import Image from "mui-image";
-import { Box, List, ListItem, Divider, Grid } from "@mui/material";
+import { Box, List, ListItem, Divider, Grid, Card } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 
@@ -26,22 +26,24 @@ const Dashboard = ({ user }) => {
     <>
       <Box>
         <Grid container direction="column" alignItems="center">
-          <Grid item md={8}>
-            <Box>
-              <Image src={userDetails.avatar} height="30%" width="60%" />
-              <Typography variant="h4">{userDetails.username}</Typography>
-              <Typography variant="h5">
+          <Grid item xs={12} sm={6} md={4}>
+            <Card sx={{ maxWidth: 445, backgroundColor: "#bcbab5" }}>
+              <Image src={userDetails.avatar} height="30%" />
+              <Typography variant="h4" align="center">
+                {userDetails.username}
+              </Typography>
+              <Typography variant="h5" align="center">
                 {userDetails.age}
-                <IconButton
+                {/* <IconButton
                   color="primary"
                   aria-label="upload picture"
                   component="label"
                 >
                   <input hidden accept="image/*" type="file" />
                   <PhotoCamera />
-                </IconButton>
+                </IconButton> */}
               </Typography>
-            </Box>
+            </Card>
           </Grid>
         </Grid>
         <Box display="flex" justifyContent="space-around" m={2}>
@@ -57,6 +59,7 @@ const Dashboard = ({ user }) => {
                       <Typography variant="body1">{`Age: ${pet.age}`}</Typography>
                       <Typography variant="body1">{`Animal: ${pet.animal}`}</Typography>
                       <Typography variant="body1">{`Breed: ${pet.breed}`}</Typography>
+                      <Typography variant="body1">{`Shelter: ${pet.shelter.name}`}</Typography>
                     </Box>
                   </ListItem>
                 ))}
@@ -76,7 +79,9 @@ const Dashboard = ({ user }) => {
             >
               {userDetails.reviews &&
                 userDetails.reviews.map((review) => (
-                  <ListItem key={review.id}>{review.shelter.name}: {review.body}</ListItem>
+                  <ListItem key={review.id}>
+                    {review.shelter.name}: {review.body}
+                  </ListItem>
                 ))}
             </List>
           </Box>

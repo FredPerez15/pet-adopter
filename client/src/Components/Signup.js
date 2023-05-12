@@ -121,7 +121,7 @@ const Signup = () => {
                   required
                   fullWidth
                   id="avatar"
-                  label="Avatar"
+                  label="Avatar URL"
                   name="avatar"
                   value={formik.values.avatar}
                   onChange={formik.handleChange}

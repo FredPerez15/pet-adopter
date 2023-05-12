@@ -14,7 +14,7 @@ import Home from "./Components/Home";
 import Dashboard from "./Components/Dashboard";
 
 //MUI imports
-import Container from "@mui/material/Container";
+import { Box } from "@mui/material";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -35,7 +35,7 @@ const App = () => {
   };
 
   return (
-    <Container>
+    <Box>
       <Navbar user={user} setUser={setUser} />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -49,7 +49,7 @@ const App = () => {
         <Route path="/shelters/:id" element={<ShelterDetails user={user} />} />
         <Route path="/pets" element={<Pets />} />
       </Routes>
-    </Container>
+    </Box>
   );
 };
 

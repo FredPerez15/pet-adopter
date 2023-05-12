@@ -268,11 +268,17 @@ const ShelterDetails = ({ user }) => {
                 shelterDetails.reviews.map((review) => (
                   <ListItem key={review.id}>
                     <Box>
-                        <Typography>{review.user.username}</Typography>
-                        <Typography>{review.body}</Typography>
-                        {user && user.id === review.user_id && (
-                        <Box mt={1} display="flex" justifyContent="space-between">
-                            <Button
+                      <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                        {review.user.username}
+                      </Typography>
+                      <Typography>{review.body}</Typography>
+                      {user && user.id === review.user_id && (
+                        <Box
+                          mt={1}
+                          display="flex"
+                          justifyContent="space-between"
+                        >
+                          <Button
                             variant="outlined"
                             size="small"
                             startIcon={<EditIcon />}
