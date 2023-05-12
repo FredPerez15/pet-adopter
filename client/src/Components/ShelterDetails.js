@@ -9,7 +9,6 @@ import {
   Typography,
   List,
   ListItem,
-  Divider,
   Button,
   Dialog,
   DialogTitle,
@@ -262,6 +261,7 @@ const ShelterDetails = ({ user }) => {
                 shelterDetails.reviews.map((review) => (
                     <ListItem key={review.id}>
                     <Box>
+                        <Typography>{review.user.username}</Typography>
                         <Typography>{review.body}</Typography>
                         {user && user.id === review.user_id && (
                         <Box mt={1} display="flex" justifyContent="space-between">
