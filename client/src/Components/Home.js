@@ -37,7 +37,7 @@ const itemData = [
     title: "Shelter",
   },
   {
-    img: "https://www.gannett-cdn.com/presto/2020/01/04/PDTF/6d6fe7fb-9db4-4acf-b0ab-f7d6e9f9fa70-IMG_2471.jpg?crop=4031,2268,x0,y373&width=3200&height=1801&format=pjpg&auto=webp",
+    img: "https://www.gannett-cdn.com/-mm-/2655786dc94953efa60a8fe239232a36f792454f/c=0-246-2397-1600/local/-/media/2017/10/04/DetroitFreeP/DetroitFreePress/636427304354077594-building-2.jpg?width=660&height=373&fit=crop&format=pjpg&auto=webp",
     title: "Shelter",
   },
   {
