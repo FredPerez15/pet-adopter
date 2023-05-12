@@ -15,8 +15,8 @@ const Signup = () => {
 
   const formSchema = yup.object().shape({
     username: yup.string().required("Please enter a username"),
-    age: yup.number().required("Please enter an age."),
-    email: yup.string().email("Invalid email").required("required."),
+    age: yup.number().required("Please enter an age"),
+    email: yup.string().email("Invalid email").required("required"),
     password: yup.string().required("required"),
   });
 
