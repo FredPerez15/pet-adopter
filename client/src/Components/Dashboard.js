@@ -17,12 +17,11 @@ import {
   DialogContentText,
   TextField,
   DialogActions,
-  Link,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const Dashboard = ({ user }) => {
+const Dashboard = ({ user, setUser }) => {
   const [userDetails, setUserDetails] = useState([]);
   const [editOpen, setEditOpen] = useState(false);
   const [editName, setEditName] = useState("");
@@ -98,6 +97,7 @@ const Dashboard = ({ user }) => {
       });
       if (resp.ok) {
         alert("Deleted");
+        setUser(null);
         navigate("/");
       } else {
         console.error("Error deleting user");
@@ -113,7 +113,7 @@ const Dashboard = ({ user }) => {
         <Grid container direction="column" alignItems="center">
           <Grid item xs={12} sm={6} md={4}>
             <Card sx={{ maxWidth: 445, backgroundColor: "#bcbab5" }}>
-              <Image src={userDetails.avatar} height="30%" />
+              <Image src={userDetails.avatar ?? ""} height="30%" />
               <Typography variant="h4" align="center">
                 {userDetails.username}
               </Typography>
@@ -192,7 +192,7 @@ const Dashboard = ({ user }) => {
                 userDetails.pets.map((pet) => (
                   <ListItem key={pet.id}>
                     <Box>
-                      <Image src={pet.image} />
+                      <Image src={pet.image ?? ""} />
                       <Typography variant="h6">{pet.name}</Typography>
                       <Typography variant="body1">{`Age: ${pet.age}`}</Typography>
                       <Typography variant="body1">{`Animal: ${pet.animal}`}</Typography>

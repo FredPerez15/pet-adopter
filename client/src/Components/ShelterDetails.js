@@ -127,6 +127,7 @@ const ShelterDetails = ({ user }) => {
         }),
       });
       if (resp.ok) {
+        alert("Review has been edited.");
         const updatedReview = await resp.json();
         setShelterDetails({
           ...shelterDetails,
@@ -153,6 +154,7 @@ const ShelterDetails = ({ user }) => {
         method: "DELETE",
       });
       if (resp.ok) {
+        alert("Reviw has been deleted");
         setShelterDetails({
           ...shelterDetails,
           reviews: shelterDetails.reviews.filter(
@@ -173,7 +175,7 @@ const ShelterDetails = ({ user }) => {
         <Typography variant="h4" align="center">
           {name}
         </Typography>
-        <Image src={image} height="20%" />
+        <Image src={image ?? ""} height="20%" />
         <Typography variant="h6" align="center" mb={2}>
           {address}
         </Typography>
@@ -186,7 +188,7 @@ const ShelterDetails = ({ user }) => {
               {pets.map((pet) => (
                 <ListItem key={pet.id}>
                   <Box>
-                    <Image src={pet.image} />
+                    <Image src={pet.image ?? ""} />
                     <Typography variant="h6">{pet.name}</Typography>
                     <Typography variant="body1">{`Age: ${pet.age}`}</Typography>
                     <Typography variant="body1">{`Animal: ${pet.animal}`}</Typography>
